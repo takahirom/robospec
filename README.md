@@ -1,5 +1,7 @@
 # RoboSpec
 
+RoboSpec is a library that provides a way to write tests using `describe` and `itShould` blocks with Robolectric.
+
 ## Motivation
 
 I've been using [Robolectric](https://robolectric.org/) with [Roborazzi](https://github.com/takahirom/roborazzi) for testing.
