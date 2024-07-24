@@ -90,6 +90,6 @@ I believe this is more readable than test names like `launch_article_list_shot()
 
 ## How to Use
 
-This is a very simple and pure Kotlin library. In fact, it doesn't even have a dependency on Robolectric. You can use it by adding the following dependency:
+This is a very simple and pure Kotlin library. In fact, it doesn't even depend on Robolectric. You can use it by adding the following dependency:
 
 TODO: Please wait until the library is published to Maven Central.
