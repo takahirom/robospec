@@ -23,10 +23,12 @@ You can call `describeBehaviors` to create a list of `DescribedBehavior` objects
 @RunWith(ParameterizedRobolectricTestRunner::class)
 // You don't need to use @HiltAndroidTest if you don't use Hilt
 @HiltAndroidTest
-class ArticleListScreenTest(private val behavior: DescribedBehavior<ArticleListScreenRobot>) {
+class ArticleListScreenTest(
+    private val behavior: DescribedBehavior<ArticleListScreenRobot>
+) {
 
-    // ArticleListScreenRobot is a utility class 
-    // that provides functions to interact with the screen
+    // ArticleListScreenRobot is not a part of RoboSpec.
+    // I recommend that you provide a Robot or PageObject for easy testing
     @Inject
     lateinit var articleListScreenRobot: ArticleListScreenRobot
 
