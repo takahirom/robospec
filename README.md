@@ -2,9 +2,9 @@
 
 ## Motivation
 
-I have been testing using [Robolectric](https://robolectric.org/) with [Roborazzi](https://github.com/takahirom/roborazzi).
-The test names are always like `launch_article_list_shot()`. This makes it difficult to read and understand what the test is doing.
-Also, if you use it for screenshot testing, you can't tell what the screenshot is about or whether it's correct.
+I've been using [Robolectric](https://robolectric.org/) with [Roborazzi](https://github.com/takahirom/roborazzi) for testing.
+My test names were always something like `launch_article_list_shot()`. These names make it hard to understand what each test does.
+Also, when using this for screenshot testing, it's not clear what each screenshot shows or if it's correct.
 
 Kotest provides [a more readable way](https://kotest.io/docs/framework/testing-styles.html#describe-spec) to write tests. It allows us to write tests using `describe` and `it`, similar to RSpec.
 However, Robolectric doesn't currently support JUnit5 (although this may change in the future). Consequently, we can't use Kotest with Robolectric.
