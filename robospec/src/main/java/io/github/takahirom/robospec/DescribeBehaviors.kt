@@ -2,10 +2,44 @@ package io.github.takahirom.robospec
 
 var DEBUG = false
 
+class DescribedBehaviors<T>(
+    private val behaviors: List<DescribedBehavior<T>>
+) : List<DescribedBehavior<T>> by behaviors {
+    // For generating texts
+    @Suppress("MemberVisibilityCanBePrivate")
+    val root get() = behaviors[0].parents[0]
+    fun toYamlString(): String {
+        val sb = StringBuilder()
+        fun traverse(node: TestNode<T>, depth: Int, parents: List<TestNode<T>>) {
+            when (node) {
+                is TestNode.Describe -> {
+                    sb.append("  ".repeat(depth))
+                    sb.append("- ${node.description}:\n")
+                    for (child in node.children) {
+                        traverse(child, depth + 1, parents + node)
+                    }
+                }
+
+                is TestNode.DoIt -> {
+                    sb.append("  ".repeat(depth))
+                    sb.append("- doIt: ${node.description}\n")
+                }
+
+                is TestNode.ItShould -> {
+                    sb.append("  ".repeat(depth))
+                    sb.append("- itShould: ${node.description}\n")
+                }
+            }
+        }
+        traverse(root, 0, emptyList())
+        return sb.toString()
+    }
+}
+
 inline fun <reified T> describeBehaviors(
     name: String,
     block: BehaviorsTreeBuilder<T>.() -> Unit,
-): List<DescribedBehavior<T>> {
+): DescribedBehaviors<T> {
     val builder = BehaviorsTreeBuilder<T>(name)
     builder.block()
     val root = builder.build(name = name)

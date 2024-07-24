@@ -1,8 +1,8 @@
 package io.github.takahirom.robospec
 
-fun <T> createBehaviors(root: TestNode.Describe<T>): List<DescribedBehavior<T>> {
+fun <T> createBehaviors(root: TestNode.Describe<T>): DescribedBehaviors<T> {
     val checkNodes = collectCheckNodes(root)
-    return checkNodes.map { createBehavior(it) }
+    return DescribedBehaviors(checkNodes.map { createBehavior(it) })
 }
 
 private data class AncestryNode<T>(

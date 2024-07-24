@@ -178,4 +178,35 @@ class DSLBehaviorTest {
             assert(describedBehaviors[0].toString() == "root - describe1 - describe1-1 - it should itShould1-1")
         }
     }
+
+    @Test
+    fun `when have two describe block with itShould it sholud be able get yaml`() {
+        runBlocking {
+            val behaviors = describeBehaviors<Unit>("root") {
+                describe("describe1") {
+                    doIt("describe1 doIt") { }
+                    itShould("itShould1") {
+                    }
+                }
+                describe("describe2") {
+                    doIt("describe2 doIt") { }
+                    itShould("itShould2") {
+                    }
+                }
+            }
+            val yaml = behaviors.toYamlString()
+            println(yaml)
+            val expected = """
+               |- root:
+               |  - describe1:
+               |    - doIt: describe1 doIt
+               |    - itShould: itShould1
+               |  - describe2:
+               |    - doIt: describe2 doIt
+               |    - itShould: itShould2
+            |""".trimMargin()
+            println(expected)
+            assert(yaml == expected)
+        }
+    }
 }

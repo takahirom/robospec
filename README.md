@@ -95,3 +95,34 @@ I believe this is more readable than test names like `launch_article_list_shot()
 This is a very simple and pure Kotlin library. In fact, it doesn't even depend on Robolectric. You can use it by adding the following dependency:
 
 TODO: Please wait until the library is published to Maven Central.
+
+## Advanced Usage
+
+### You can generate any format you want by traversing the `DescribedBehaviors` object.
+
+For example, you can create YAML files by using `toYamlString()`.
+
+```kotlin
+val behaviors = describeBehaviors<Unit>("root") {
+    describe("describe1") {
+        doIt("describe1 doIt") { }
+        itShould("itShould1") { }
+    }
+    describe("describe2") {
+        doIt("describe2 doIt") { }
+        itShould("itShould2") { }
+    }
+}
+val yaml = behaviors.toYamlString()
+println(yaml)
+```
+
+```yaml
+- root:
+    - describe1:
+        - doIt: describe1 doIt
+        - itShould: itShould1
+    - describe2:
+        - doIt: describe2 doIt
+        - itShould: itShould2
+```
