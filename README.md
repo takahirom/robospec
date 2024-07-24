@@ -9,7 +9,13 @@ Also, if you use it for screenshot testing, you can't tell what the screenshot i
 Kotest provides [a more readable way](https://kotest.io/docs/framework/testing-styles.html#describe-spec) to write tests. It allows us to write tests using `describe` and `it`, similar to RSpec.
 However, Robolectric doesn't currently support JUnit5 (although this may change in the future). Consequently, we can't use Kotest with Robolectric.
 
-I discovered that we can use Robolectric's `ParameterizedRobolectricTestRunner` to describe the test.
+I discovered that we can use Robolectric's `ParameterizedRobolectricTestRunner` to structure our tests more descriptively.
+
+## What is RoboSpec?
+
+RoboSpec is a library that provides a way to write tests using `describe` and `itShould` blocks with Robolectric.
+
+You can call `describeBehaviors` to create a list of `DescribedBehavior` objects and run each test with the `execute()` method.
 
 ```kotlin
 @RunWith(ParameterizedRobolectricTestRunner::class)
