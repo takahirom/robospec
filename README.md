@@ -21,16 +21,18 @@ You can call `describeBehaviors` to create a list of `DescribedBehavior` objects
 
 ```kotlin
 @RunWith(ParameterizedRobolectricTestRunner::class)
+// You don't need to use @HiltAndroidTest if you don't use Hilt
 @HiltAndroidTest
 class ArticleListScreenTest(private val behavior: DescribedBehavior<ArticleListScreenRobot>) {
 
-    // ArticleListScreenRobot is a utility class that provides functions to interact with the screen
+    // ArticleListScreenRobot is a utility class 
+    // that provides functions to interact with the screen
     @Inject
     lateinit var articleListScreenRobot: ArticleListScreenRobot
 
     @Test
     fun test() {
-        runRobot(articleListScreenRobot) {
+        runTest {
             behavior.execute(articleListScreenRobot)
         }
     }
