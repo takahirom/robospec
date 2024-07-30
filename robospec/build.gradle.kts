@@ -1,9 +1,22 @@
 plugins {
-  alias(libs.plugins.jetbrains.kotlin.jvm)
+    alias(libs.plugins.jetbrains.kotlin.multiplatform)
+    id("module.publication")
 }
 
-dependencies {
-  compileOnly(libs.coroutines)
-  testImplementation(libs.coroutines)
-  testImplementation(libs.junit)
+kotlin {
+    jvm()
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                compileOnly(libs.coroutines)
+            }
+        }
+        val jvmTest by getting {
+            dependencies {
+                implementation(libs.coroutines)
+                implementation(libs.junit)
+            }
+        }
+    }
+
 }

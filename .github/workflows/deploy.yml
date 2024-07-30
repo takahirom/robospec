@@ -1,0 +1,68 @@
+name: Deploy to central
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - '**'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    uses: ./.github/workflows/gradle.yml
+  deploy:
+    environment:
+      name: release
+    needs: build
+    strategy:
+      matrix:
+        include:
+          - target: publishIosArm64PublicationToSonatypeRepository --no-configuration-cache
+            os: macos-latest
+          - target: publishIosX64PublicationToSonatypeRepository --no-configuration-cache
+            os: macos-latest
+          - target: publishAndroidReleasePublicationToSonatypeRepository --no-configuration-cache
+            os: ubuntu-latest
+          - target: publishIosSimulatorArm64PublicationToSonatypeRepository --no-configuration-cache
+            os: macos-latest
+          - target: publishJvmPublicationToSonatypeRepository --no-configuration-cache
+            os: ubuntu-latest
+#          - target: publishLinuxX64PublicationToSonatypeRepository
+#            os: ubuntu-latest
+          - target: publishKotlinMultiplatformPublicationToSonatypeRepository --no-configuration-cache
+            os: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v3
+    - name: Validate Gradle Wrapper
+      uses: gradle/wrapper-validation-action@v1
+    - uses: actions/cache@v3
+      with:
+        path: |
+          ~/.konan
+        key: ${{ runner.os }}-${{ hashFiles('**/.lock') }}
+    - name: Import GPG key
+      uses: crazy-max/ghaction-import-gpg@v5
+      with:
+        gpg_private_key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+        passphrase: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3
+    - name: Run Gradle publish
+      run: |
+        ./gradlew \
+        ${{ matrix.target }} \
+        closeSonatypeStagingRepository \
+        -PsonatypeUsername='${{ secrets.OSSRH_USERNAME }}' \
+        -PsonatypePassword='${{ secrets.OSSRH_PASSWORD }}' \
+        -PtestSecret='${{ secrets.TEST_SECRET }}' \
+        -Psigning.gnupg.passphrase='${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}' \
+        -Psigning.gnupg.keyName='${{ secrets.OSSRH_GPG_SECRET_KEY_ID }}'
+
