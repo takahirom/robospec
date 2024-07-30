@@ -13,6 +13,8 @@ jobs:
   build:
     uses: ./.github/workflows/gradle.yml
   deploy:
+    environment:
+      name: release
     needs: build
     strategy:
       matrix:
