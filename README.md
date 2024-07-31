@@ -87,7 +87,7 @@ class ArticleListScreenTest(
 }
 ```
 
-This test creates three test cases:
+This test creates three test cases as parameterized tests:
 1. `ArticleListScreenTest.test[when server is operational - it should show article items]`
 2. `ArticleListScreenTest.test[when server is operational - click first article bookmark - it should show bookmarked article]`
 3. `ArticleListScreenTest.test[when server is down - it should show error message]`
