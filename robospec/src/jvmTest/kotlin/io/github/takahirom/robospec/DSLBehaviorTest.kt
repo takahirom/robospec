@@ -4,12 +4,11 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class DSLBehaviorTest {
-    @Test
-    fun `when just using describe behavior with doIt it should not run`() {
+    @Test(expected = IllegalStateException::class)
+    fun `when just using describe behavior with doIt it should be error`() {
         runBlocking {
             describeBehaviors<Unit>("root") {
                 doIt {
-                    error("should not be called")
                 }
             }.forEach { it.execute(Unit) }
         }
