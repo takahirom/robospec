@@ -119,6 +119,11 @@ class BehaviorsTreeBuilder<T>(private val parentDescription: String = "") {
         children.add(TestNode.ItShould(description) { describedBehavior -> action(describedBehavior) })
     }
 
-    fun build(name: String): TestNode.Describe<T> = TestNode.Describe(name, children)
+    fun build(name: String): TestNode.Describe<T> {
+        if (children.all { it is TestNode.DoIt }) {
+            throw IllegalStateException("No itShould or describe block found for $name. Please add itShould or describe block, otherwise, it will not be executed.")
+        }
+        return TestNode.Describe(name, children)
+    }
 }
 
