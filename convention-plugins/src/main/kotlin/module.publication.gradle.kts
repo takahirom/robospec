@@ -19,7 +19,7 @@ publishing {
         // Provide artifacts information required by Maven Central
         pom {
             name.set("RoboSpec")
-            description.set("This library enhances Compose Multiplatform by enabling the use of `rememberRetained{}`, which is stored within ViewModel. It broadens the versatility of Compose, allowing it to be utilized in a wider array of contexts and scenarios.")
+            description.set("RoboSpec is a library that provides a way to write tests using describe and itShould blocks with Robolectric.")
             url.set("https://github.com/takahirom/robospec")
 
             licenses {
